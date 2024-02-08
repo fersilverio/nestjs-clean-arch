@@ -1,9 +1,8 @@
-import { IsDate, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 import { UserProps } from "../entities/user.entity";
 import { ClassValidatorFields } from "@/shared/domain/validators/class-validator-fields";
-import { UsersController } from "@/users/infrastructure/users.controller";
 
-class UserRules {
+export class UserRules {
   @MaxLength(255)
   @IsString()
   @IsNotEmpty()
