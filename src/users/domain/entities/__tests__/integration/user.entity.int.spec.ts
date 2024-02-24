@@ -123,6 +123,18 @@ describe("UserEntity integration tests", () => {
     })
 
 
+    it("Should a valid user", () => {
+      expect.assertions(0);
+
+      let props: UserProps = {
+        ...UserDataBuilder({}),
+      }
+
+      new UserEntity(props)
+
+    })
+
+
 
 
   })
