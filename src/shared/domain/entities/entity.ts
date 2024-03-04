@@ -10,7 +10,7 @@ export abstract class Entity<Props = any> {
   }
 
   get id() {
-    return this.id
+    return this._id
   }
 
   // Required transforma tudo em obrigatorio, ao contratio do Parcial
