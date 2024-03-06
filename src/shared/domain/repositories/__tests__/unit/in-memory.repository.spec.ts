@@ -1,7 +1,7 @@
 import { en } from "@faker-js/faker"
-import { Entity } from "../../entities/entity"
-import { NotFoundError } from "../../errors/not-found-error"
-import { InMemoryRepository } from "../in-memory.repository"
+import { Entity } from "../../../entities/entity"
+import { NotFoundError } from "../../../errors/not-found-error"
+import { InMemoryRepository } from "../../in-memory.repository"
 
 type StubEntityProps = {
   name: string

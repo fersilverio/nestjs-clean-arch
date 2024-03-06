@@ -18,7 +18,7 @@ export class SearchParams {
   protected _sortDir: SortDirection | null
   protected _filter: string | null
 
-  constructor(props: SearchProps) {
+  constructor(props: SearchProps = {}) {
     this.page = props.page
     this.perPage = props.perPage
     this.sort = props.sort
@@ -45,13 +45,13 @@ export class SearchParams {
   }
 
   private set perPage(value: number) {
-    let _perPage = +value
+    let _perPage = value === (true as any) ? this._perPage : +value
 
     if (Number.isNaN(_perPage) || _perPage <= 0 || parseInt(_perPage as any) !== _perPage) {
       _perPage = this._perPage
     }
 
-    this._page = _perPage
+    this._perPage = _perPage
   }
 
   get sort() {
