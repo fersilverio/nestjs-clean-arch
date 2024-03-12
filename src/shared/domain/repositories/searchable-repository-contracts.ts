@@ -1,7 +1,7 @@
-import { Entity } from "../entities/entity";
-import { RepositoryInterface } from "./repository-contracts";
+import { Entity } from '../entities/entity'
+import { RepositoryInterface } from './repository-contracts'
 
-export type SortDirection = "asc" | "desc";
+export type SortDirection = 'asc' | 'desc'
 
 export type SearchProps<Filter = string> = {
   page?: number
@@ -12,16 +12,14 @@ export type SearchProps<Filter = string> = {
 }
 
 export type SearchResultProps<E extends Entity, Filter> = {
-  items: E[],
+  items: E[]
   total: number
   currentPage: number
   perPage: number
   sort: string | null
   sortDir: string | null
-  filter?: Filter | null
+  filter: Filter | null
 }
-
-
 
 export class SearchParams {
   protected _page: number
@@ -38,17 +36,15 @@ export class SearchParams {
     this.filter = props.filter
   }
 
-  get page(): number {
+  get page() {
     return this._page
   }
 
   private set page(value: number) {
     let _page = +value
-
     if (Number.isNaN(_page) || _page <= 0 || parseInt(_page as any) !== _page) {
       _page = 1
     }
-
     this._page = _page
   }
 
@@ -58,11 +54,13 @@ export class SearchParams {
 
   private set perPage(value: number) {
     let _perPage = value === (true as any) ? this._perPage : +value
-
-    if (Number.isNaN(_perPage) || _perPage <= 0 || parseInt(_perPage as any) !== _perPage) {
+    if (
+      Number.isNaN(_perPage) ||
+      _perPage <= 0 ||
+      parseInt(_perPage as any) !== _perPage
+    ) {
       _perPage = this._perPage
     }
-
     this._perPage = _perPage
   }
 
@@ -71,7 +69,8 @@ export class SearchParams {
   }
 
   private set sort(value: string | null) {
-    this._sort = value === null || value === undefined || value === '' ? null : `${value}`
+    this._sort =
+      value === null || value === undefined || value === '' ? null : `${value}`
   }
 
   get sortDir() {
@@ -92,9 +91,9 @@ export class SearchParams {
   }
 
   private set filter(value: string | null) {
-    this._filter = value === null || value === undefined || value === '' ? null : `${value}`
+    this._filter =
+      value === null || value === undefined || value === '' ? null : `${value}`
   }
-
 }
 
 export class SearchResult<E extends Entity, Filter = string> {
@@ -105,7 +104,7 @@ export class SearchResult<E extends Entity, Filter = string> {
   readonly lastPage: number
   readonly sort: string | null
   readonly sortDir: string | null
-  readonly filter?: Filter | null
+  readonly filter: Filter | null
 
   constructor(props: SearchResultProps<E, Filter>) {
     this.items = props.items
@@ -118,7 +117,7 @@ export class SearchResult<E extends Entity, Filter = string> {
     this.filter = props.filter ?? null
   }
 
-  toJSON(forceEntity = false): any {
+  toJSON(forceEntity = false) {
     return {
       items: forceEntity ? this.items.map(item => item.toJSON()) : this.items,
       total: this.total,
@@ -126,15 +125,17 @@ export class SearchResult<E extends Entity, Filter = string> {
       perPage: this.perPage,
       lastPage: this.lastPage,
       sort: this.sort,
+      sortDir: this.sortDir,
+      filter: this.filter,
     }
   }
 }
 
-
 export interface SearchableRepositoryInterface<
   E extends Entity,
-  SearchInput,
-  SearchOutput
+  Filter = string,
+  SearchInput = SearchParams,
+  SearchOutput = SearchResult<E, Filter>,
 > extends RepositoryInterface<E> {
   search(props: SearchInput): Promise<SearchOutput>
 }
