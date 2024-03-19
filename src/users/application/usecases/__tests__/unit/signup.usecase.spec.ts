@@ -6,7 +6,7 @@ import { UserInMemoryRepository } from "@/users/infrastructure/database/in-memor
 import { BcryptjsHashProvider } from "@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider"
 import { SignupUseCase } from "../../signup.usecase"
 
-describe('UserInMemoryRepository unit tests', () => {
+describe('SignupUseCase unit tests', () => {
   let sut: SignupUseCase.UseCase
   let repository: UserInMemoryRepository
   let hashProvider: HashProvider
