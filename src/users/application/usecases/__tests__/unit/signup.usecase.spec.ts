@@ -1,6 +1,6 @@
 import { HashProvider } from "@/shared/application/providers/hash-provider"
 import { ConflictError } from "@/shared/domain/errors/conflict-error"
-import { BadRequestError } from "@/users/application/errors/bad-request-error"
+import { BadRequestError } from "@/shared/application/errors/bad-request-error"
 import { UserDataBuilder } from "@/users/domain/testing/helpers/user-data-builder"
 import { UserInMemoryRepository } from "@/users/infrastructure/database/in-memory/user-in-memory.repository"
 import { BcryptjsHashProvider } from "@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider"
