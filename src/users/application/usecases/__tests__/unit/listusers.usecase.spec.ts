@@ -1,4 +1,4 @@
-import { ListUsersUseCase } from '../../listusers.usecase'
+import { ListUsersUseCase } from '../../list-users.usecase'
 import { UserRepository } from '@/users/domain/repositories/user.repository'
 import { UserEntity } from '@/users/domain/entities/user.entity'
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder'
