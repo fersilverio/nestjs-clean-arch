@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { SignupUseCase } from '../application/usecases/sign-up.usecase';
 import { UserInMemoryRepository } from './database/in-memory/user-in-memory.repository';
@@ -24,7 +23,7 @@ import { UpdateUserUseCase } from '../application/usecases/update-user.usecase '
       provide: 'HashProvider',
       useClass: BcryptjsHashProvider,
     },
-    UsersService, // na pratica esse eh um jeito encurtado
+    //UsersService, // na pratica esse eh um jeito encurtado
     {
       provide: SignupUseCase.UseCase,
       useFactory: ( // use factory para criar de fato um vinculo entre classe e dependencias
