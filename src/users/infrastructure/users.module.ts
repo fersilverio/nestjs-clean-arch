@@ -11,13 +11,26 @@ import { ListUsersUseCase } from '../application/usecases/list-users.usecase';
 import { SigninUseCase } from '../application/usecases/sign-in.usecase';
 import { UpdatePasswordUseCase } from '../application/usecases/update-password.usecase';
 import { UpdateUserUseCase } from '../application/usecases/update-user.usecase ';
+import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
+import { UserPrismaRepository } from './database/prisma/repositories/user-prisma.repository';
 
 @Module({
   controllers: [UsersController],
   providers: [
     {
-      provide: 'UserRepository', // nome que definimos pra chamar fora daqui
-      useClass: UserInMemoryRepository,
+      provide: 'PrismaService',
+      useClass: PrismaService,
+    },
+    // {
+    //   provide: 'UserRepository', // nome que definimos pra chamar fora daqui
+    //   useClass: UserInMemoryRepository,
+    // },
+    {
+      provide: 'UserRepository',
+      useFactory: (prismaService: PrismaService) => {
+        return new UserPrismaRepository(prismaService)
+      },
+      inject: ['PrismaService'],
     },
     {
       provide: 'HashProvider',
@@ -48,7 +61,7 @@ import { UpdateUserUseCase } from '../application/usecases/update-user.usecase '
       provide: GetUserUseCase.UseCase,
       useFactory: (userRepository: UserRepository.Repository) => {
         return new GetUserUseCase.UseCase(userRepository)
-      },
+      }, // usar use factory quando precisar injetar dependencias ao inves de use class
       inject: ['UserRepository'],
     },
     {
