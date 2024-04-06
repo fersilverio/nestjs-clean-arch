@@ -91,6 +91,7 @@ describe("UserPrismaRepository integration tests", () => {
 
       expect(searchOutput).toBeInstanceOf(UserRepository.SearchResult)
       expect(searchOutput.total).toBe(16)
+      expect(searchOutput.items.length).toBe(15)
       searchOutput.items.forEach(item => {
         expect(item).toBeInstanceOf(UserEntity)
       })
