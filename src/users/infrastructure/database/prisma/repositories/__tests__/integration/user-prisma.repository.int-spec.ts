@@ -29,7 +29,7 @@ describe("UserPrismaRepository integration tests", () => {
 
   it('should throw error when entity not found', async () => {
     expect(() => sut.findById('FakeId')).rejects.toThrow(
-      new NotFoundError('UserModel not found usind ID FakeId'),
+      new NotFoundError('UserModel not found using ID FakeId'),
     )
   })
 
@@ -65,6 +65,30 @@ describe("UserPrismaRepository integration tests", () => {
     expect(entities).toHaveLength(1)
     expect(JSON.stringify(entities)).toBe(JSON.stringify([entity]))
     entities.map(item => expect(item.toJSON()).toStrictEqual(entity.toJSON()))
+  })
+
+  it("should throw an error on update when entity not found", () => {
+    const entity = new UserEntity(UserDataBuilder({}))
+
+    expect(() => sut.update(entity)).rejects.toThrow(
+      new NotFoundError(`UserModel not found using ID ${entity.id}`),
+    );
+  })
+
+  it('should update a entity', async () => {
+    const entity = new UserEntity(UserDataBuilder({}))
+    const newUser = await prismaService.user.create({
+      data: entity.toJSON(),
+    })
+    entity.update('new name')
+    await sut.update(entity)
+
+    const output = await prismaService.user.findUnique({
+      where: {
+        id: entity._id,
+      },
+    })
+    expect(output.name).toBe('new name')
   })
 
   describe('search method tests', () => {
