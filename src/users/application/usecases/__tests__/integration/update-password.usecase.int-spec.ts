@@ -36,7 +36,7 @@ describe('UpdatePasswordUseCase integration tests', () => {
     await module.close()
   })
 
-  it('should throw error when a entity found by email', async () => {
+  it('should throw error when a entity found by id', async () => {
     const entity = new UserEntity(UserDataBuilder({}))
     await expect(() =>
       sut.execute({
