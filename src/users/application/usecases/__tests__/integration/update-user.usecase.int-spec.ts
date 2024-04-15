@@ -31,13 +31,13 @@ describe('UpdateUserUseCase integration tests', () => {
     await module.close()
   })
 
-  it('should throws error when entity not found', async () => {
+  it('should throw error when entity not found', async () => {
     await expect(() =>
       sut.execute({ id: 'fakeId', name: 'fake name' }),
     ).rejects.toThrow(new NotFoundError('UserModel not found using ID fakeId'))
   })
 
-  it('should update a user', async () => {
+  it('should update an user', async () => {
     const entity = new UserEntity(UserDataBuilder({}))
     const model = await prismaService.user.create({
       data: entity.toJSON(),
