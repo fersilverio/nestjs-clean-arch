@@ -10,6 +10,7 @@ import { UpdatePasswordDto } from '../../dtos/update-password.dto'
 import { UpdatePasswordUseCase } from '@/users/application/usecases/update-password.usecase'
 import { GetUserUseCase } from '@/users/application/usecases/get-user.usecase '
 import { ListUsersUseCase } from '@/users/application/usecases/list-users.usecase'
+import { UserPresenter } from '../../presenters/user.presenter'
 
 describe('UsersController unit tests', () => {
   let sut: UsersController
@@ -32,7 +33,7 @@ describe('UsersController unit tests', () => {
     expect(sut).toBeDefined()
   })
 
-  it('should create an user', async () => {
+  it('should create a user', async () => {
     const output: SignupUseCase.Output = props
     const mockSignupUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
@@ -43,12 +44,13 @@ describe('UsersController unit tests', () => {
       email: 'a@a.com',
       password: '1234',
     }
-    const result = await sut.create(input)
-    expect(output).toMatchObject(result)
+    const presenter = await sut.create(input)
+    expect(presenter).toBeInstanceOf(UserPresenter)
+    expect(presenter).toStrictEqual(new UserPresenter(output))
     expect(mockSignupUseCase.execute).toHaveBeenCalledWith(input)
   })
 
-  it('should authenticate an user', async () => {
+  it('should authenticate a user', async () => {
     const output: SigninUseCase.Output = props
     const mockSigninUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
@@ -58,12 +60,13 @@ describe('UsersController unit tests', () => {
       email: 'a@a.com',
       password: '1234',
     }
-    const result = await sut.login(input)
-    expect(output).toMatchObject(result)
+    const presenter = await sut.login(input)
+    expect(presenter).toBeInstanceOf(UserPresenter)
+    expect(presenter).toStrictEqual(new UserPresenter(output))
     expect(mockSigninUseCase.execute).toHaveBeenCalledWith(input)
   })
 
-  it('should update an user', async () => {
+  it('should update a user', async () => {
     const output: UpdateUserUseCase.Output = props
     const mockUpdateUserUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
@@ -72,12 +75,13 @@ describe('UsersController unit tests', () => {
     const input: UpdateUserDto = {
       name: 'new name',
     }
-    const result = await sut.update(id, input)
-    expect(output).toMatchObject(result)
+    const presenter = await sut.update(id, input)
+    expect(presenter).toBeInstanceOf(UserPresenter)
+    expect(presenter).toStrictEqual(new UserPresenter(output))
     expect(mockUpdateUserUseCase.execute).toHaveBeenCalledWith({ id, ...input })
   })
 
-  it('should update an users password', async () => {
+  it('should update a users password', async () => {
     const output: UpdatePasswordUseCase.Output = props
     const mockUpdatePasswordUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
@@ -87,15 +91,16 @@ describe('UsersController unit tests', () => {
       password: 'new password',
       oldPassword: 'old password',
     }
-    const result = await sut.updatePassword(id, input)
-    expect(output).toMatchObject(result)
+    const presenter = await sut.updatePassword(id, input)
+    expect(presenter).toBeInstanceOf(UserPresenter)
+    expect(presenter).toStrictEqual(new UserPresenter(output))
     expect(mockUpdatePasswordUseCase.execute).toHaveBeenCalledWith({
       id,
       ...input,
     })
   })
 
-  it('should delete an user', async () => {
+  it('should delete a user', async () => {
     const output = undefined
     const mockDeleteUserUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
@@ -108,14 +113,15 @@ describe('UsersController unit tests', () => {
     })
   })
 
-  it('should get an user', async () => {
+  it('should gets a user', async () => {
     const output: GetUserUseCase.Output = props
     const mockGetUserUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
     }
     sut['getUserUseCase'] = mockGetUserUseCase as any
-    const result = await sut.findOne(id)
-    expect(output).toStrictEqual(result)
+    const presenter = await sut.findOne(id)
+    expect(presenter).toBeInstanceOf(UserPresenter)
+    expect(presenter).toStrictEqual(new UserPresenter(output))
     expect(mockGetUserUseCase.execute).toHaveBeenCalledWith({
       id,
     })
